@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F8F9FA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔔 Notifikasi Saya"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kirim info perangkat ke Telegram Anda"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#666666"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="URL Server:"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/serverUrl"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:hint="http://192.168.1.100:2093/api/kirim-data"
+        android:inputType="textUri"
+        android:backgroundTint="#2563EB"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/simpanBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Simpan URL Server"
+        android:backgroundTint="#2563EB"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/kirimBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Kirim Notifikasi Uji Coba"
+        android:backgroundTint="#10B981"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>
