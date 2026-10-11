@@ -1,0 +1,56 @@
+name: Build Notifikasi Saya APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle Wrapper
+        run: |
+          curl -L -o android/gradle/wrapper/gradle-wrapper.jar \
+            "https://github.com/gradle/gradle/raw/v8.4.0/gradle/wrapper/gradle-wrapper.jar"
+          chmod +x android/gradlew
+
+      - name: Build Release APK
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Generate Keystore & Sign APK
+        run: |
+          keytool -genkeypair -v \
+            -keystore release.keystore \
+            -alias releasekey \
+            -keyalg RSA -keysize 2048 -validity 36500 \
+            -storepass notif123 -keypass notif123 \
+            -dname "CN=NotifSaya,O=NotifSaya,C=ID"
+          
+          APK=$(find android/app/build/outputs/apk/release/ -name "*.apk" | head -1)
+          BUILD_TOOLS=$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)
+          $ANDROID_HOME/build-tools/$BUILD_TOOLS/apksigner sign \
+            --ks release.keystore \
+            --ks-pass pass:notif123 \
+            --key-pass pass:notif123 \
+            --ks-key-alias releasekey \
+            --out NotifikasiSaya.apk "$APK"
+          echo "APK signed OK"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NotifikasiSaya-APK
+          path: NotifikasiSaya.apk
+          retention-days: 30
